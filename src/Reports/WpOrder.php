@@ -44,6 +44,11 @@ class WpOrder extends Order
         return $this->orderIds;
     }
 
+    public function setOrderIds(array $data) {
+        $this->data = $data;
+        return $this->data;
+    }
+
     public function setOrderIdsByArtist($artist_number)
     {
         
