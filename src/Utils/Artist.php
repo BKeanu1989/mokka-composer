@@ -10,7 +10,7 @@ use Mokka\Interfaces\ArtistInterface;
  * woocommerce needs to be installed
  * 
  */
-abstract class Artist extends ArtistInterface
+abstract class Artist implements ArtistInterface
 {
     protected $artist_id;
     protected $artist_data;
@@ -27,7 +27,7 @@ abstract class Artist extends ArtistInterface
 
     public function setArtist()
     {
-        
+
     }
 
     public function getArtist() 

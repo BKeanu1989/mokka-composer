@@ -29,7 +29,7 @@ class WpArtist extends Artist
      * @return string
      * @throws string does not throw an exception. just returns an empty string
      **/
-    public static function get_artist_from_product(int $productId, $child = false) :string
+    public static function get_artist_from_product(int $productId, $child = false) :array
     {
         global $wpdb;
 
