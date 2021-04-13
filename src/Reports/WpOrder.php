@@ -28,7 +28,7 @@ class WpOrder extends Order
         $baseDir = wp_upload_dir()['basedir'] . '/mokka-misc/';
         $month = date('Y-m');
 
-        $path = $baseDir + $month;
+        $path = $baseDir . $month;
         wp_mkdir_p($path);
 
     }
