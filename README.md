@@ -7,3 +7,7 @@ Added new way of looking up artist for product
 Debugs:
     - implements interface
 
+## 0.2.6
+Debugs:
+    - WpArtist according to interface
+

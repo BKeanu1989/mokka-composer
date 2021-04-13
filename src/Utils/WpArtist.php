@@ -11,7 +11,7 @@ use Mokka\Utils\Artist;
  */
 class WpArtist extends Artist 
 {
-    public function __construct()
+    public function __construct(int $artist_id = 0)
     {
         
     }
