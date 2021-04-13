@@ -100,7 +100,7 @@ class WpOrder extends Order
                     'quantity' => $singleData['quantity'],
                     'total_tax_excluded' => $singleData['total'],
                     'tax' => $singleData['total_tax'],
-                    'base_price' => 
+                    'base_price' => $basePrice->get_price()
                 ];
 
 
