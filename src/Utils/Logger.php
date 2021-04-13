@@ -15,8 +15,6 @@ class Logger
         wp_mkdir_p($path);
         
         $path += 'log.log';
-        error_log("---PATH---");
-        error_log($path);
         $myfile = fopen($path, "a") or die("Unable to open file!");
         $dateNow = date("Y-m-d H:i:s");
         $now= new \DateTime("@" . strtotime($dateNow));

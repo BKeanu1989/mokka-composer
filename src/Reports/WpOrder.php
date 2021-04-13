@@ -4,6 +4,7 @@ namespace Mokka\Reports;
 use Mokka\Utils\WpArtist;
 use Mokka\Utils\Logger;
 use Mokka\Utils\WpHelper;
+use Mokka\Utils\BasePrice;
 use Mokka\Reports\Order;
 
 class WpOrder extends Order 
@@ -77,8 +78,15 @@ class WpOrder extends Order
             // var_dump($items);
             foreach($items AS $item) {
                 $singleData = $item->get_data();
-                $_product_id = $singleData['product_id'];
-                $_variation_id = $singleData['variation_id'];
+                $_product = $item->get_product();
+
+                // $_product_id = $singleData['product_id'];
+                // $_variation_id = $singleData['variation_id'];
+
+                $basePrice = new BasePrice($_product->get_id());
+                Logger::write_log($basePrice);
+                $_product_id = $_product->get_product_id();
+                $_variation_id = $_product->get_variation_id();
 
                 $productWhiteList = $this->whiteList['product'];
                 $variationWhiteList = $this->whiteList['variation'];
@@ -91,8 +99,11 @@ class WpOrder extends Order
                     'name' => $item->get_name(),
                     'quantity' => $singleData['quantity'],
                     'total_tax_excluded' => $singleData['total'],
-                    'tax' => $singleData['total_tax']
+                    'tax' => $singleData['total_tax'],
+                    'base_price' => 
                 ];
+
+
 
                 $combined = array_merge(WpHelper::pullOut($product_data, $productWhiteList), WpHelper::pullOut($variation_data, $variationWhiteList), $_order_data, $item_data);
                 $built[$orderId] = $combined;
@@ -114,7 +125,6 @@ class WpOrder extends Order
             
             $first_array_key = array_key_first($this->data);
             $header_row = array_keys($this->data[$first_array_key]);
-            Logger::write_log($first_array_key);
             fputcsv( $fh, $header_row, ',');
     
             foreach ($this->data as $fields) {

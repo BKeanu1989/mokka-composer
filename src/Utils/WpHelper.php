@@ -48,4 +48,23 @@ class WpHelper
         }
         return $returnArray;
     }
+
+    /**
+     * is_variation
+     * 
+     * @param WC_Product
+     * @return bool
+     */
+    public static function is_variation($product) {
+        try {
+            if (gettype($product) === 'boolean') return false;
+            
+            $is_variation = ($product->get_type() === 'variation') ? true : false;
+            return $is_variation;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return false;
+        }
+
+    }
 }
