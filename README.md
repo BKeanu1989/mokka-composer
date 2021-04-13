@@ -31,3 +31,7 @@ Added:
 Added:
     - BasePrice
 
+## 0.3.14
+Use this tool for serialization
+https://sciactive.com/phpserialeditor.php
+
