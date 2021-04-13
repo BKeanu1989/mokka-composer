@@ -20,6 +20,6 @@ class Logger
 
     public static function test() 
     {
-        echo "test";
+        echo "update worked";
     }
 }
