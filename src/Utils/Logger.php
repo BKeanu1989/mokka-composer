@@ -11,9 +11,10 @@ class Logger
 
     public static function write_log( $message ) 
     {
-        $path = realpath(__DIR__ . DIRECTORY_SEPARATOR . '../../') . '/logs/log.log';
+        $path = realpath(__DIR__ . DIRECTORY_SEPARATOR . '../../') . '/logs/';
         wp_mkdir_p($path);
         
+        $path += 'log.log';
         error_log("---PATH---");
         error_log($path);
         $myfile = fopen($path, "a") or die("Unable to open file!");
