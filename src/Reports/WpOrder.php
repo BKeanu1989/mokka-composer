@@ -45,8 +45,8 @@ class WpOrder extends Order
     }
 
     public function setOrderIds(array $data) {
-        $this->data = $data;
-        return $this->data;
+        $this->orderIds = $data;
+        return $this->orderIds;
     }
 
     public function setOrderIdsByArtist($artist_number)
@@ -69,7 +69,7 @@ class WpOrder extends Order
         global $wpdb;
         $orderIds = array_slice($this->orderIds, $this->offset, $this->length);
 
-        $build = [];
+        $buil = [];
 
         foreach($orderIds AS $orderId) {
             $_order = wc_get_order($orderId);
