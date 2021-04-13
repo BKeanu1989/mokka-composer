@@ -17,3 +17,11 @@ Added:
 Debugs:
     - WpArtist according to interface
 
+## 0.3.0
+
+Added:
+    - Reports
+        - Order
+
+    - Files
+        - initialized

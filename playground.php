@@ -1,9 +1,7 @@
 <?php
 
 require_once __DIR__ . '/vendor/autoload.php';
-use Mokka\Utils\Logger;
 
-$test = ['test' => 'foo'];
+$month = date('Y-m');
 
-Logger::write_log($test);
-// Logger::test();          
+echo $month;
