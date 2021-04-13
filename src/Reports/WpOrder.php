@@ -84,9 +84,6 @@ class WpOrder extends Order
                 $_variation_id = $singleData['variation_id'];
 
                 $basePrice = new BasePrice($_product->get_id());
-                Logger::write_log($basePrice);
-                // $_product_id = $_product->get_product_id();
-                // $_variation_id = $_product->get_variation_id();
 
                 $productWhiteList = $this->whiteList['product'];
                 $variationWhiteList = $this->whiteList['variation'];

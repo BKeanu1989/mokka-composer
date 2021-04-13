@@ -25,3 +25,9 @@ Added:
 
     - Files
         - initialized
+
+## 0.3.11
+
+Added:
+    - BasePrice
+

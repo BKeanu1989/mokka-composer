@@ -14,7 +14,7 @@ class Logger
         $path = realpath(__DIR__ . DIRECTORY_SEPARATOR . '../../') . '/logs/';
         wp_mkdir_p($path);
         
-        $path += 'log.log';
+        $path .= 'log.log';
         $myfile = fopen($path, "a") or die("Unable to open file!");
         $dateNow = date("Y-m-d H:i:s");
         $now= new \DateTime("@" . strtotime($dateNow));
