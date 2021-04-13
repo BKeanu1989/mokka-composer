@@ -5,5 +5,5 @@ use Mokka\Utils\Logger;
 
 $test = ['test' => 'foo'];
 
-// Logger::write_log($test);
-Logger::test();          
+Logger::write_log($test);
+// Logger::test();          

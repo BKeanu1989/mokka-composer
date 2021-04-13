@@ -9,13 +9,22 @@ class Logger
         
     }
 
-    public static function write_log( $log ) 
+    public static function write_log( $message ) 
     {
-        if ( is_array( $log ) || is_object( $log ) ) {
-            error_log( print_r( $log, true ) );
-        } else {
-            error_log( $log );
+        $path = realpath(__DIR__ . DIRECTORY_SEPARATOR . '../../') . '/logs/log.log';
+        $myfile = fopen($path, "a") or die("Unable to open file!");
+        $dateNow = date("Y-m-d H:i:s");
+        $now= new \DateTime("@" . strtotime($dateNow));
+        $now->modify("+2 hours");
+        $now = $now->format("Y-m-d H:i:s");
+
+        if ( is_array( $message ) || is_object( $message ) ) {
+            $message = print_r( $message, true );
         }
+
+        $message ='[' . $now . ']: ' . $message . "\n";
+        fwrite($myfile, $message);
+        fclose($myfile);
     }
 
     public static function test() 
