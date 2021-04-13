@@ -22,4 +22,6 @@ class Logger
     {
         echo "update worked";
     }
+
+    
 }
