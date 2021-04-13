@@ -20,7 +20,7 @@ class Logger
 
     public static function test() 
     {
-        echo "some fake changes";
+        echo "some more fake changes ";
     }
 
     
