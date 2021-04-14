@@ -14,6 +14,7 @@ class WpOrder extends Order
     protected $length = 100;
     protected $data;
     protected $orderIds;
+    protected $orderStatusToFilterBy;
     public function __construct(array $whiteList, int $offset = 0, int $length = 100, $filterByOrderStatus = [])
     {
         $this->whiteList = $whiteList;
@@ -21,7 +22,7 @@ class WpOrder extends Order
         $this->length = $length;
 
         $this->init();
-        $this->filterByOrderStatus = $filterByOrderStatus;
+        $this->orderStatusToFilterBy = $filterByOrderStatus;
     }
 
     protected function init()
@@ -68,7 +69,7 @@ class WpOrder extends Order
 
         $oldOrderIds = $this->orderIds;
         $in_array_orderIds = implode("', '", $oldOrderIds);
-        $in_array_order_status = implode("', '", $this->filterByOrderStatus);
+        $in_array_order_status = implode("', '", $this->orderStatusToFilterBy);
         $query = "SELECT ID FROM {$wpdb->prefix}posts WHERE ID IN ('$in_array_orderIds') AND post_status IN ('$in_array_order_status')";
         $newOrderIds = $wpdb->get_col($query);
 
