@@ -15,6 +15,8 @@ class WpOrder extends Order
     protected $data;
     protected $orderIds;
     protected $orderStatusToFilterBy;
+    protected $saved_file;
+    
     public function __construct(array $whiteList, int $offset = 0, int $length = 100, $filterByOrderStatus = [])
     {
         $this->whiteList = $whiteList;
@@ -188,7 +190,20 @@ class WpOrder extends Order
         }
     }
 
-    // TODO: download
+    public function download() {
+        if(file_exists($this->saved_file)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="'.basename($this->saved_file).'"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($this->saved_file));
+            flush(); // Flush system output buffer
+            readfile($this->saved_file);
+            exit;
+        }
+    }
 
     
 }
