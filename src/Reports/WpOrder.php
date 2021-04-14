@@ -13,14 +13,15 @@ class WpOrder extends Order
     protected $offset = 0;
     protected $length = 100;
     protected $data;
-    public function __construct(array $whiteList, int $offset = 0, int $length = 100)
+    protected $orderIds;
+    public function __construct(array $whiteList, int $offset = 0, int $length = 100, $filterByOrderStatus = [])
     {
         $this->whiteList = $whiteList;
         $this->offset = $offset;
         $this->length = $length;
 
         $this->init();
-
+        $this->filterByOrderStatus = $filterByOrderStatus;
     }
 
     protected function init()
@@ -33,20 +34,17 @@ class WpOrder extends Order
 
     }
 
-    /**
-     * getOrderIdsByArtist
-     * 
-     * @param int $artist_number
-     * @return array
-     */
-    public static function getOrderIdsByArtist($artist_number) 
-    {
-        return $this->orderIds;
-    }
-
     public function setOrderIds(array $data) {
         $this->orderIds = $data;
         return $this->orderIds;
+    }
+    
+    public function maybeFilterOrderStatus() 
+    {
+        if (count($this->filterByOrderStatus) > 0) {
+            $newOrderIds = $this->filterByOrderStatus();
+            $this->setOrderIds($newOrderIds);
+        }
     }
 
     public function setOrderIdsByArtist($artist_number)
@@ -59,9 +57,22 @@ class WpOrder extends Order
         $query = "SELECT ITEMS.order_id FROM {$wpdb->prefix}woocommerce_order_itemmeta AS ITEMMETA JOIN {$wpdb->prefix}woocommerce_order_items AS ITEMS ON ITEMMETA.order_item_id = ITEMS.order_item_id WHERE meta_key = '_product_id' AND meta_value IN ('$in_array_sql')";
 
         $results = $wpdb->get_col($query);
-        $this->orderIds = $results;
+        $this->setOrderIds($results);
         return $results;
     }
+
+    public function filterByOrderStatus() 
+    {
+        global $wpdb;
+
+        $oldOrderIds = $this->orderIds;
+        $in_array_orderIds = implode("', '", $oldOrderIds);
+        $in_array_order_status = implode("', '", $this->filterByOrderStatus);
+        $newOrderIds = $wpdb->get_col("SELECT ID FROM {$wpdb->prefix}posts WHERE ID IN ('$in_array_orderIds') AND post_status IN ('$in_array_order_status')", ARRAY_A);
+
+        return $newOrderIds;
+    }
+
 
     public function build()
     {
@@ -148,6 +159,8 @@ class WpOrder extends Order
             error_log("no items for bill csv");
         }
     }
+
+    // TODO: download
 
     
 }
