@@ -63,6 +63,18 @@ class WpOrder extends Order
         return $results;
     }
 
+    public function setOrderIdsByProducts(array $productIds) 
+    {
+        global $wpdb;
+
+        $in_array_sql = implode("', '", $productIds);
+        $query = "SELECT ITEMS.order_id FROM {$wpdb->prefix}woocommerce_order_itemmeta AS ITEMMETA JOIN {$wpdb->prefix}woocommerce_order_items AS ITEMS ON ITEMMETA.order_item_id = ITEMS.order_item_id WHERE meta_key = '_product_id' AND meta_value IN ('$in_array_sql')";
+
+        $results = $wpdb->get_col($query);
+        $this->setOrderIds($results);
+        return $results;
+    }
+
     public function filterByOrderStatus() 
     {
         global $wpdb;
@@ -89,9 +101,11 @@ class WpOrder extends Order
             if (!$_order) continue;
             $items = $_order->get_items();
             $orderId = $_order->get_id();
+            $_post = get_post($orderId);
             $_order_data = [
                 'status' => $_order->get_status(),
-                'order_id' => $orderId
+                'order_id' => $orderId,
+                'post_date' => $_post->post_date
             ];
             // var_dump($items);
             foreach($items AS $item) {
