@@ -42,8 +42,10 @@ class WpOrder extends Order
     public function maybeFilterOrderStatus() 
     {
         if (count($this->filterByOrderStatus) > 0) {
+            Logger::write_log("maybeFilterOrderStatus");
             $newOrderIds = $this->filterByOrderStatus();
             $this->setOrderIds($newOrderIds);
+            return $newOrderIds;
         }
     }
 
@@ -68,7 +70,9 @@ class WpOrder extends Order
         $oldOrderIds = $this->orderIds;
         $in_array_orderIds = implode("', '", $oldOrderIds);
         $in_array_order_status = implode("', '", $this->filterByOrderStatus);
-        $newOrderIds = $wpdb->get_col("SELECT ID FROM {$wpdb->prefix}posts WHERE ID IN ('$in_array_orderIds') AND post_status IN ('$in_array_order_status')", ARRAY_A);
+        $query = "SELECT ID FROM {$wpdb->prefix}posts WHERE ID IN ('$in_array_orderIds') AND post_status IN ('$in_array_order_status')";
+        Logger::write_log($query);
+        $newOrderIds = $wpdb->get_col($query, ARRAY_A);
 
         return $newOrderIds;
     }
