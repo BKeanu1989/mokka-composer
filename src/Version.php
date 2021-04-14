@@ -4,7 +4,7 @@ namespace Mokka;
 
 class Version 
 {
-    CONST VERSION = '0.3.19';
+    CONST VERSION = '0.3.20';
 
     public static function getVersion()
     {

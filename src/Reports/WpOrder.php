@@ -79,7 +79,7 @@ class WpOrder extends Order
         global $wpdb;
         $orderIds = array_slice($this->orderIds, $this->offset, $this->length);
 
-        $buil = [];
+        $built = [];
 
         foreach($orderIds AS $orderId) {
             $_order = wc_get_order($orderId);
