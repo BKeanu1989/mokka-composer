@@ -110,7 +110,7 @@ class WpOrder extends Order
                     'base_price' => $basePrice->get_price()
                 ];
 
-                $combined = array_merge($_order_data, $order_data, WpHelper::pullOut($product_data, $productWhiteList), WpHelper::pullOut($variation_data, $variationWhiteList), $item_data);
+                $combined = array_merge($_order_data, WpHelper::pullOut($order_data, $orderWhiteList), WpHelper::pullOut($product_data, $productWhiteList), WpHelper::pullOut($variation_data, $variationWhiteList), $item_data);
                 $built[$orderId] = $combined;
             }
         }
