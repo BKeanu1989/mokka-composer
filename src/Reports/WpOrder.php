@@ -139,7 +139,7 @@ class WpOrder extends Order
                 ];
 
                 $combined = array_merge($_order_data, WpHelper::pullOut($order_data, $orderWhiteList), WpHelper::pullOut($product_data, $productWhiteList), WpHelper::pullOut($variation_data, $variationWhiteList), $item_data);
-                $built[$orderId] = $combined;
+                $built[] = $combined;
             }
         }
         $this->data = $built;
