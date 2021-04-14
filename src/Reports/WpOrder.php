@@ -75,6 +75,17 @@ class WpOrder extends Order
         return $results;
     }
 
+    public function setOrderIdsByTimeFrame($start, $end)
+    {
+        global $wpdb;
+
+        $query = $wpdb->prepare("SELECT ID FROM {$wpdb->prefix}posts WHERE date(post_date) BETWEEN %s AND %s AND post_type = 'shop_order'", $start, $end);
+        $orderIds = $wpdb->get_col($query);
+
+        $this->setOrderIds($orderIds);
+        return $orderIds;
+    }
+
     public function filterByOrderStatus() 
     {
         global $wpdb;
