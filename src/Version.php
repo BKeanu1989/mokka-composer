@@ -4,7 +4,7 @@ namespace Mokka;
 
 class Version 
 {
-    CONST VERSION = '0.3.22';
+    CONST VERSION = '0.3.23';
 
     public static function getVersion()
     {

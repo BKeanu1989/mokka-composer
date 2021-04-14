@@ -41,7 +41,7 @@ class WpOrder extends Order
     
     public function maybeFilterOrderStatus() 
     {
-        if (count($this->filterByOrderStatus) > 0) {
+        if (is_array($this->orderStatusToFilterBy) && count($this->orderStatusToFilterBy) > 0) {
             $newOrderIds = $this->filterByOrderStatus();
             $this->setOrderIds($newOrderIds);
             return $newOrderIds;
