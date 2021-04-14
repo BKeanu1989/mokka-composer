@@ -61,7 +61,6 @@ class WpOrder extends Order
         $results = $wpdb->get_col($query);
         $this->orderIds = $results;
         return $results;
-
     }
 
     public function build()
@@ -91,11 +90,17 @@ class WpOrder extends Order
                 $basePrice = new BasePrice($_product->get_id());
 
                 $productWhiteList = $this->whiteList['product'];
-                $variationWhiteList = $this->whiteList['variation'];
                 $in_array_product = implode("', '", $productWhiteList);
-                $in_array_variation = implode("', '", $variationWhiteList);
                 $product_data = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}postmeta WHERE meta_key IN ('$in_array_product') AND post_id = $_product_id", ARRAY_A);
+
+                $variationWhiteList = $this->whiteList['variation'];
+                $in_array_variation = implode("', '", $variationWhiteList);
                 $variation_data = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}postmeta WHERE meta_key IN ('$in_array_variation') AND post_id = $_variation_id", ARRAY_A);
+
+                $orderWhiteList = $this->whiteList['order'];
+                $in_array_order = implode("', '", $orderWhiteList);
+                $order_data = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}postmeta WHERE meta_key IN ('$in_array_order') AND post_id = $orderId", ARRAY_A);
+                
 
                 $item_data = [
                     'name' => $item->get_name(),
@@ -105,14 +110,17 @@ class WpOrder extends Order
                     'base_price' => $basePrice->get_price()
                 ];
 
-
-
-                $combined = array_merge(WpHelper::pullOut($product_data, $productWhiteList), WpHelper::pullOut($variation_data, $variationWhiteList), $_order_data, $item_data);
+                $combined = array_merge($_order_data, $order_data, WpHelper::pullOut($product_data, $productWhiteList), WpHelper::pullOut($variation_data, $variationWhiteList), $item_data);
                 $built[$orderId] = $combined;
             }
         }
         $this->data = $built;
         return $built;
+    }
+
+    public function getOrderIdsCount()
+    {
+        return count($this->orderIds);
     }
 
     public function save($fileName)
