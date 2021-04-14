@@ -65,6 +65,11 @@ class WpHelper
             //throw $th;
             return false;
         }
+    }
 
+    public static function redirect_to_same_page()
+    {
+        wp_redirect($_SERVER['HTTP_REFERER']);
+        exit;
     }
 }
