@@ -1,0 +1,14 @@
+<phpunit bootstrap="./vendor/autoload.php"
+  colors="true"
+  verbose="true"
+  testdox="true"
+  >
+  <testsuites>
+    <testsuite name="Bac">
+      <directory>./tests/bac</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <!-- <const name="SNOWDANCE_PLUGIN_PATH" value="D:\MAMP\htdocs\snowdance\wp-content\plugins\snowdance/" force="true" /> -->
+  </php>
+</phpunit>

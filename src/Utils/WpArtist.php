@@ -43,20 +43,8 @@ class WpArtist extends Artist
 
             $artist_id = get_post_meta($productId, '_artist_id', true);
             
-    
-            if (empty($artist_id)) {
-                $term_ids = self::get_term_ids_for_product($productId);
-                $in_array_sql = implode("', '", $term_ids);
-        
-                $query = "SELECT * FROM {$wpdb->prefix}artists WHERE term_id IN ('$in_array_sql')";
-                if ($child) $query .= " AND parent_id <> '0'";
-                if (!$child) $query .= " AND parent_id = 0";
-                $result = $wpdb->get_row($query, ARRAY_A);
-            } else {
-                $_product_id = $productId;
-                $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}artists WHERE id = %d", $artist_id);
-                $result = $wpdb->get_row($query, ARRAY_A);
-            }
+            $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}artists WHERE id = %d", $artist_id);
+            $result = $wpdb->get_row($query, ARRAY_A);
     
             if (count($result['artist_name']) === 0) return null;
     

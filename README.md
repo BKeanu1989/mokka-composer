@@ -35,3 +35,6 @@ Added:
 Use this tool for serialization
 https://sciactive.com/phpserialeditor.php
 
+
+## 0.4.0
+Add Bac Manager

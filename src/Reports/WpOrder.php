@@ -5,6 +5,7 @@ use Mokka\Utils\WpArtist;
 use Mokka\Utils\Logger;
 use Mokka\Utils\WpHelper;
 use Mokka\Utils\BasePrice;
+
 use Mokka\Reports\Order;
 
 class WpOrder extends Order 
@@ -105,8 +106,12 @@ class WpOrder extends Order
     public function build()
     {
         global $wpdb;
+        Logger::write_log("order ids before slice");
+        Logger::write_log($this->orderIds);
         $orderIds = array_slice($this->orderIds, $this->offset, $this->length);
 
+        Logger::write_log("order ids after slice");
+        Logger::write_log($orderIds);
         $built = [];
 
         foreach($orderIds AS $orderId) {
