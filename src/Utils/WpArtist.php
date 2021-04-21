@@ -13,9 +13,15 @@ class WpArtist extends Artist
 {
     public function __construct(int $artist_id = 0)
     {
-        
+        parent::__construct($artist_id);
     }
 
+    public static function get_artist_by_id(int $id)
+    {
+        global $wpdb;
+        $artist_number = $wpdb->get_var($wpdb->prepare("SELECT artist_nummer FROM {$wpdb->prefix}artists WHERE id = %d", $id));
+        return new WpArtist($artist_number);
+    }
 
     /**
      * get the artist by product id.
@@ -100,5 +106,27 @@ class WpArtist extends Artist
         
         $term_ids = $wpdb->get_col($wpdb->prepare("SELECT term_taxonomy_id FROM {$wpdb->prefix}term_relationships WHERE object_id = %d", $id));
         return $term_ids;
+    }
+
+    public function setData()
+    {
+        global $wpdb;
+        $this->artist_data = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}artists WHERE artist_nummer = %d", $this->artist_id));
+        return $this->artist_data;
+    }
+
+    public function getData() 
+    {
+        return $this->artist_data;
+    }
+
+    public function maybeGetParentData()
+    {
+        $parent_id = $this->artist_data->parent_id;
+        if ($parent_id == 0) {
+            return $this->artist_data;
+        }
+        $parent = self::get_artist_by_id((int) $parent_id); 
+        return $parent->getData();
     }
 }

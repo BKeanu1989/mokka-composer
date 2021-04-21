@@ -18,21 +18,22 @@ abstract class Artist implements ArtistInterface
     {
         $this->artist_id = $artist_id;
         $this->artist_data = [];
+
+        $this->setup();
     }
 
     public function setup() 
     {
-        $this->setArtist();
+        $this->setData();
     }
 
-    public function setArtist()
+    public function setData()
     {
-
+        echo "i am called";
     }
 
-    public function getArtist() 
+    public function getData() 
     {
-        return $this->artist_data;
     }
 
 

@@ -49,6 +49,27 @@ class WpHelper
         return $returnArray;
     }
 
+    public static function get_post_meta(int $post_id, array $whiteList = [])
+    {
+        global $wpdb;
+
+        $in_array = implode("', '", $whiteList);
+        $data = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}postmeta WHERE meta_key IN ('$in_array') AND post_id = $post_id", ARRAY_A);
+
+        return self::pullOut($data, $whiteList);
+        
+    }
+
+    public static function get_order_item_meta(int $id, array $whiteList)
+    {
+        global $wpdb;
+
+        $in_array = implode("', '", $whiteList);
+        $data = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}woocommerce_order_itemmeta WHERE meta_key IN ('$in_array') AND order_item_id = $id", ARRAY_A);
+
+        return self::pullOut($data, $whiteList);
+    }
+
     /**
      * is_variation
      * 
@@ -71,5 +92,61 @@ class WpHelper
     {
         wp_redirect($_SERVER['HTTP_REFERER']);
         exit;
+    }
+
+    /**
+     * load_template
+     * 
+     * @param string $filepath
+     * @param array $args
+     */
+    public function load_template($filepath, $args) {
+        global $wp_version;
+    
+        // if template supports args argument
+        if (version_compare($wp_version, '5.5.0', '>=')) {
+            if ( $overridden_template = locate_template( $filepath ) ) {
+                /*
+                 * locate_template() returns path to file.
+                 * if either the child theme or the parent theme have overridden the template.
+                 */
+                load_template( $overridden_template, false, $args );
+            } else {
+                /*
+                 * If neither the child nor parent theme have overridden the template,
+                 * we load the template from the 'templates' sub-directory of the directory this file is in.
+                 */
+                load_template( $filepath, false, $args );
+            }
+        } else {
+            if ( $overridden_template = locate_template( $filepath ) ) {
+                /*
+                 * locate_template() returns path to file.
+                 * if either the child theme or the parent theme have overridden the template.
+                 */
+                set_query_var('args', $args);
+                load_template( $overridden_template, false);
+            } else {
+                /*
+                 * If neither the child nor parent theme have overridden the template,
+                 * we load the template from the 'templates' sub-directory of the directory this file is in.
+                 */
+                set_query_var('args', $args);
+                load_template($filepath);
+            }
+        }
+    }
+
+    public static function return_last_truthy(...$params) {
+        $params_length = count($params);
+        for ($i=$params_length; $i > 0; $i--) { 
+            $key = $i - 1;
+            $is_empty = $params[$key] === ''; 
+    
+            if ($is_empty || !$params[$key]) {
+                continue;
+            }
+            return $params[$key];
+        }
     }
 }

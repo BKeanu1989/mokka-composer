@@ -38,3 +38,6 @@ https://sciactive.com/phpserialeditor.php
 
 ## 0.4.0
 Add Bac Manager
+
+## 0.5.0
++ Bandcamp

@@ -48,8 +48,6 @@ class FidorReader extends Reader
         return null;
     }
 
-
-
     public function getName()
     {
         return $this->name;

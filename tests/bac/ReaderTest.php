@@ -45,7 +45,7 @@ final class ReaderTest extends TestCase
     public function testGetOrderId()
     {
         $toTest = self::$csv[2];
-        $fidorReader = new FidorReader();
+        $fidorReader = new FidorReader($toTest);
         $orderId = $fidorReader->getOrderId($toTest);
         $this->assertSame(88688, (int) $orderId);
     }
@@ -53,7 +53,7 @@ final class ReaderTest extends TestCase
     public function testGetName() 
     {
         $toTest = self::$csv[2];
-        $fidorReader = new FidorReader();
+        $fidorReader = new FidorReader($toTest);
         $name = $fidorReader->getName($toTest);
 
         $this->assertSame("Huber", $name[0]);
@@ -64,18 +64,9 @@ final class ReaderTest extends TestCase
     {
         $toTest = self::$csv[2];
         $fidorReader = new FidorReader($toTest);
-
-        $this->assertSame($fidorReader->amount, 46.49);
-
-    }
-
-    public function testNegativeAmountsIsFalse()
-    {
-
-        // $fidorReader = new FidorReader();
-        // $amount = $fidorReader->getAmount($toTest);
+        $amount = $fidorReader->getAmount();
+        $this->assertSame($amount, 46.49);
 
     }
-
 
 }
