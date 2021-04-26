@@ -14,6 +14,7 @@ class WpArtist extends Artist
     public function __construct(int $artist_id = 0)
     {
         parent::__construct($artist_id);
+        $this->setData();
     }
 
     public static function get_artist_by_id(int $id)
@@ -122,7 +123,7 @@ class WpArtist extends Artist
 
     public function maybeGetParentData()
     {
-        $parent_id = $this->artist_data->parent_id;
+        $parent_id = $this->artist_data['parent_id'];
         if ($parent_id == 0) {
             return $this->artist_data;
         }

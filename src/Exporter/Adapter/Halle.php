@@ -3,6 +3,7 @@
 namespace Mokka\Exporter\Adapter;
 
 use Mokka\Interfaces\ExporterAdapterInterface;
+use Mokka\Exporter\Adapter\HalleFormatter;
 
 class Halle implements ExporterAdapterInterface
 {
@@ -11,6 +12,8 @@ class Halle implements ExporterAdapterInterface
     {
         $this->data = $builder->getData();    
         $this->builder = $builder;
+        $this->formatter = new HalleFormatter($this->data);
+
         $this->rows = [];
 
         $this->setup();
@@ -35,13 +38,31 @@ class Halle implements ExporterAdapterInterface
     public function format()
     {
         foreach($this->getData() AS $singleData) {
-            extract($singleData);
-            $array = [
-                'orderId' => '',
-                'creationData' => $post_date,
-                'deliveryCompany' => ''
-            ];
+            $formatter = new HalleFormatter($singleData);
 
+            $array = [
+                'orderId' => $formatter->getOrderId(),
+                'creationData' => $formatter->getCreationDate(),
+                'deliveryCompany' => $formatter->deliveryCompany(),
+                'deliveryFirstname' => $formatter->deliveryFirstname(),
+                'deliveryLastname' => $formatter->deliveryLastname(),
+                'deliveryStreet' => $formatter->deliveryStreet(),
+                'deliveryZipcode' => $formatter->deliveryZipcode(),
+                'deliveryCity' => $formatter->deliveryCity(),
+                'deliveryCountry' => $formatter->deliveryCountry(),
+                'orderItemId' => $formatter->getOrderItemId(),
+                'qty' => $formatter->getQuantity(),
+                'productSku' => $formatter->getProductSku(),
+                'productName' => $formatter->getName(),
+                'currency' => $formatter->getCurrency(),
+                'net_price' => $formatter->getPrice(),
+                'ODM' => $formatter->getOdm(),
+                'image' => $formatter->getImage(),
+                'rohartikelnr' => $formatter->getRohartikel(),
+                'printStyle' => $formatter->getPrintStyle(),
+                'parcel_id' => $formatter->getParcelId(),
+                'DeliveryCareOf' => $formatter->DeliveryCareOf()
+            ];
             $this->rows[] = $array;
         }
     }

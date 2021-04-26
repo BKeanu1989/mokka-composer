@@ -149,4 +149,12 @@ class WpHelper
             return $params[$key];
         }
     }
+
+    public static function replaceUmlauts(string $string)
+    {
+        $replace_umlauts = array("ß" => "ss", "Ä" => "Ae", "Ü" => "Ue", "Ö" => "Oe", "ä" => "ae", "ü" => "ue", "ö" => "oe");
+        return strtr($string, $replace_umlauts);
+    }
+
+
 }

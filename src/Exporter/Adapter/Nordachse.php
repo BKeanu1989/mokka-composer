@@ -3,6 +3,7 @@
 namespace Mokka\Exporter\Adapter;
 
 use Mokka\Interfaces\ExporterAdapterInterface;
+use Mokka\Exporter\Adapter\HalleFormatter;
 
 // orderId;creationdate;deliveryCompany;deliveryFirstname;deliveryLastname;deliveryStreet;deliveryZipcode;deliveryCity;deliveryCountry;orderItemId;qty;productSku;productName;currency;net_price;ODM;image;rohartikelnr;printStyle;parcel_id;DeliveryCareOf
 class Nordachse  implements ExporterAdapterInterface
@@ -13,7 +14,6 @@ class Nordachse  implements ExporterAdapterInterface
         $this->data = $builder->getData();    
         $this->builder = $builder;
         $this->rows = [];
-
         $this->setup();
     }
 
@@ -37,28 +37,31 @@ class Nordachse  implements ExporterAdapterInterface
     {
         foreach($this->getData() AS $singleData) {
             extract($singleData);
+            error_log("singleData");
+            error_log(print_r($singleData, 1));
+            $formatter = new HalleFormatter($singleData);
             $array = [
                 'orderId' => '',
                 'creationData' => $post_date,
-                'deliveryCompany' => '',
-                'deliveryFirstname' => '',
-                'deliveryLastname' => '',
-                'deliveryStreet' => '',
-                'deliveryZipcode' => '',
-                'deliveryCity' => '',
-                'deliveryCountry' => '',
-                'orderItemId' => '',
-                'qty' => '',
-                'productSku' => '',
+                'deliveryCompany' => $formatter->deliveryCompany(),
+                'deliveryFirstname' => $formatter->deliveryFirstname(),
+                'deliveryLastname' => $formatter->deliveryLastname(),
+                'deliveryStreet' => $formatter->deliveryStreet(),
+                'deliveryZipcode' => $formatter->deliveryZipcode(),
+                'deliveryCity' => $formatter->deliveryCity(),
+                'deliveryCountry' => $formatter->deliveryCountry(),
+                'orderItemId' => $formatter->getOrderItemId(),
+                'qty' => $formatter->getQuantity(),
+                'productSku' => $formatter->getProductSku(),
                 'productName' => '',
-                'currency' => '',
-                'net_price' => '',
-                'ODM' => '',
+                'currency' => $formatter->getCurrency(),
+                'net_price' => $formatter->getPrice(),
+                'ODM' => $formatter->getOdm(),
                 'image' => '',
                 'rohartikelnr' => '',
-                'printStyle' => '',
-                'parcel_id' => '',
-                'DeliveryCareOf' => '' // ???
+                'printStyle' => $formatter->getPrintStyle(),
+                'parcel_id' => $formatter->getParcelId(),
+                'DeliveryCareOf' => $formatter->DeliveryCareOf()
             ];
 
             $this->rows[] = $array;

@@ -29,8 +29,17 @@ class Builder
         $items = $this->order->get_items();    
         $postData = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}posts WHERE ID = %d", $this->order->get_id()), ARRAY_A);
         $orderData = WpHelper::get_post_meta($this->order->get_id(), [
+            '_billing_company',
+            '_billing_first_name',
+            '_billing_last_name',
             '_billing_email',
             '_billing_phone',
+            '_billing_address_1',
+            '_billing_address_1_5',
+            '_billing_address_2',
+            '_billing_postcode',
+            '_billing_country',
+            '_billing_city',
             '_mokka-click-collect',
             '_order_currency',
             '_shipping_first_name',
@@ -76,12 +85,12 @@ class Builder
                 'name' => $item->get_name()
             ];
 
-            $singleData = array_merge($product_meta, $variation_meta, $order_item_meta, $name, $postData, $orderData);
+            $singleData = array_merge($product_meta, $variation_meta, $order_item_meta, $name, $postData, $orderData, ['order_item_id' => $order_item_id]);
 
             $data[] = $singleData;
         }
 
-        $data = array_merge($data, $orderData);
+        // $data = array_merge($data, $orderData);
 
         $this->setData($data);
     }

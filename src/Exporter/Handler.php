@@ -44,15 +44,12 @@ class Handler
             $artists[] = $artistData;
         }
         $artists = array_filter($artists);
-        var_dump($artists);
 
         $conf = parse_ini_file(ABSPATH . 'conf.ini', true);
         if (count($artists) === 0) {
             $this->config = $conf['Halle'];
             return $conf['Halle'];
         } 
-        echo "we are here";
-        var_dump($artists);
         $uniqueUpperCasedArtistNames = array_unique(array_map(function($x) {
             return ucfirst(strtolower($x->artist_name));
         },$artists));
@@ -78,7 +75,6 @@ class Handler
     {
         $defaultName = 'Halle';
         $configName = $this->config['name'];
-        var_dump($configName);
         $name = $configName === '' ? $defaultName : $configName;
         $className = "Mokka\Exporter\Adapter\\" . $name;
         $this->adapter = new $className($this->builder);
