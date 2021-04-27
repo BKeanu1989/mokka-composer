@@ -56,8 +56,9 @@ class Handler
 
         $counted = count($uniqueUpperCasedArtistNames);
         if ($counted === 1) {
-            if ($uniqueUpperCasedArtistNames[0] === 'Nordachse') {
-                $this->config = $conf[$uniqueUpperCasedArtistNames[0]]; 
+            if (in_array($uniqueUpperCasedArtistNames[0], ['Nordachse', 'Nordberliner Pils'])) {
+                $config_to_use = 'Nordachse';
+                $this->config = $conf[$config_to_use]; 
                 return $this->config;
             }
         } else {

@@ -4,24 +4,28 @@ namespace Mokka\Exporter\Adapter;
 
 use Mokka\Interfaces\ExporterAdapterInterface;
 use Mokka\Exporter\Adapter\HalleFormatter;
+use Mokka\Exporter\Validator;
 
 class Halle implements ExporterAdapterInterface
 {
+    protected $validator;
+
     // orderId;creationdate;deliveryCompany;deliveryFirstname;deliveryLastname;deliveryStreet;deliveryZipcode;deliveryCity;deliveryCountry;orderItemId;qty;productSku;productName;currency;net_price;ODM;image;rohartikelnr;printStyle;parcel_id;DeliveryCareOf
     public function __construct(\Mokka\Exporter\Builder $builder)
     {
         $this->data = $builder->getData();    
         $this->builder = $builder;
-        $this->formatter = new HalleFormatter($this->data);
 
         $this->rows = [];
 
         $this->setup();
+        
     }
-
+    
     public function setup() 
     {
         $this->format();
+        $this->validator = new Validator\Halle($this->rows);
     }
 
     public function setData(array $data)

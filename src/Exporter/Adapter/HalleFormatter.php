@@ -40,6 +40,7 @@ class HalleFormatter
 
         switch ($productProduction) {
             case 'sieb': // change: unbedruckt
+            case 'bandcamp':
                 // translateToZero because of implemented validation check. value cant be falsy aka '0'
                 return 'translateToZero';
             case 'onDemand': // change: DTG
@@ -68,7 +69,7 @@ class HalleFormatter
     public function deliveryFirstname()
     {
         $data = $this->data;
-
+        error_log(print_r($data, 1));
         $first_name_to_use = WpHelper::return_last_truthy($data['_billing_first_name'], $data['_shipping_first_name']);
         return WpHelper::replaceUmlauts($first_name_to_use);
 
@@ -131,15 +132,15 @@ class HalleFormatter
     public function get_product_hs_code() {
         $data = '61091000';
         
-        $filtered_data = apply_filters(WP_Helpers::get_filter_name($this->name, __FUNCTION__), $data);
-        return $filtered_data;
+        // $filtered_data = apply_filters(WP_Helpers::get_filter_name($this->name, __FUNCTION__), $data);
+        return $data;
     }
     
     public function get_product_country_of_manufacture() {
         $data = 'DE';
 
-        $filtered_data = apply_filters(WP_Helpers::get_filter_name($this->name, __FUNCTION__), $data);
-        return $filtered_data;
+        // $filtered_data = apply_filters(WP_Helpers::get_filter_name($this->name, __FUNCTION__), $data);
+        return $data;
     }
 
     public function getProductSku()

@@ -1,4 +1,4 @@
-<phpunit bootstrap="./vendor/autoload.php"
+<phpunit bootstrap="./tests/bootstrap.php"
   colors="true"
   verbose="true"
   testdox="true"
@@ -7,8 +7,13 @@
     <testsuite name="Bac">
       <directory>./tests/bac</directory>
     </testsuite>
+    <testsuite name="Exporter">
+      <directory>
+        ./tests/exporter
+      </directory>
+    </testsuite>
   </testsuites>
   <php>
-    <!-- <const name="SNOWDANCE_PLUGIN_PATH" value="D:\MAMP\htdocs\snowdance\wp-content\plugins\snowdance/" force="true" /> -->
+    <const name="ABSPATH" value="D:\MAMP\htdocs\mokka-live/" force="true" />
   </php>
 </phpunit>

@@ -8,11 +8,11 @@ class Builder
 {
     protected $data;
     protected $order;
+    protected $validator;
 
     public function __construct(\WC_Order $order)
     {
         $this->order = $order;
-
         $this->init();
     }
 
@@ -93,6 +93,7 @@ class Builder
         // $data = array_merge($data, $orderData);
 
         $this->setData($data);
+
     }
 
     public function setData(array $data)

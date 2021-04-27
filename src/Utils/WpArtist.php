@@ -123,7 +123,8 @@ class WpArtist extends Artist
 
     public function maybeGetParentData()
     {
-        $parent_id = $this->artist_data['parent_id'];
+        // error_log(print_r($this, 1));
+        $parent_id = $this->artist_data->parent_id;
         if ($parent_id == 0) {
             return $this->artist_data;
         }

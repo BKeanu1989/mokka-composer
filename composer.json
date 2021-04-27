@@ -15,7 +15,7 @@
         }
     },
     "scripts": {
-        "test": "phpunit"
+        "test": "phpunit --debug -d display_startup_errors=on -d error_reporting=22527"
     },
     "require-dev": {
         "phpunit/phpunit": "9"
